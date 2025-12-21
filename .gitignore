@@ -1,0 +1,24 @@
+# Virtual Enviroment
+.smp_py312/
+__pacache__/
+*.pyc
+
+# Logs 
+logs/*.log
+logs/*.jsonl
+!logs/.gitkeep
+
+# IDEs and System
+.vscode/
+.idea/
+.DS_Store
+
+
+# Credentials and Security
+.ssh/
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.pem
+.env
