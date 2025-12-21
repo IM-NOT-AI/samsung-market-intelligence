@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  samsung-bot:
+  build: .
+  container_name: samsung_pipeline_vps
+  restart: unless-stopped
+  volumes:
+    # Maps computer's folder to inside Docker
+    - ./data:/app/data
+    - ./logs:/app/logs
+  environment:
+    - TZ=America/Sao_Paulo
+    - METRICS_PORT=9090
+  ports:
+  - "9090:9090"
