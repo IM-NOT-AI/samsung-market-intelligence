@@ -23,7 +23,7 @@ try:
     # Importing Enterprise Monitoring Classes
     from src.monitoring.logger import structured_logger
     from src.monitoring.metrics import metrics, BusinessEventTracker
-    from src.monitoring.config import MonitoringConfig
+    from src.monitoring.settings import MonitoringConfig
     # Logoru for generic info logs to keep consistency
     from loguru import logger
 except ImportError as e:
