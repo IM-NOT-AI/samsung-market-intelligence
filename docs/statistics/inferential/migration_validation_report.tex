@@ -1,0 +1,426 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage[explicit]{titlesec}   % Essential for custom section formatting
+\usepackage[skins]{tcolorbox}     % Essential for drop shadows and skins
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{helvet}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}                 % Drawing borders and backgrounds
+\usepackage{eso-pic}              % Fixed background layout
+
+% --- COLOR DEFINITIONS ---
+\renewcommand{\familydefault}{\sfdefault}
+\definecolor{samsungblue}{rgb}{0.08, 0.17, 0.63}
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{matteblack}{RGB}{35, 35, 35}     % Matte Black
+\definecolor{samsunggold}{RGB}{212, 175, 55}  % Metallic Gold
+
+% ==============================================================================
+% 1. MARGIN CONTROL
+% ==============================================================================
+\geometry{
+    a4paper,
+    left=1.5cm, 
+    right=1.5cm,
+    top=3.0cm,      % Space for Header
+    bottom=3.5cm,   % Space for Footer
+    headheight=40pt,
+    headsep=15pt,
+    footskip=55pt   % Position of footer text
+}
+
+% ==============================================================================
+% 2. BACKGROUND DESIGN (BARS AND BORDERS)
+% ==============================================================================
+\AddToShipoutPictureBG{%
+    \begin{tikzpicture}[overlay, remember picture]
+        % --- HEADER (TOP BAR) ---
+        \fill[black!30] ([xshift=1.1cm, yshift=-1.6cm]current page.north west) 
+            rectangle ([xshift=-0.9cm, yshift=-2.6cm]current page.north east);
+        \fill[matteblack] ([xshift=1cm, yshift=-1.5cm]current page.north west) 
+            rectangle ([xshift=-1cm, yshift=-2.5cm]current page.north east);
+        \draw[samsunggold, line width=1.5pt] ([xshift=1cm, yshift=-2.5cm]current page.north west) 
+            -- ([xshift=-1cm, yshift=-2.5cm]current page.north east);
+
+        % --- FOOTER (BOTTOM BAR) ---
+        \fill[black!30] ([xshift=1.1cm, yshift=1.9cm]current page.south west) 
+            rectangle ([xshift=-0.9cm, yshift=0.9cm]current page.south east);
+        \fill[matteblack] ([xshift=1cm, yshift=2.0cm]current page.south west) 
+            rectangle ([xshift=-1cm, yshift=1.0cm]current page.south east);
+        \draw[samsunggold, line width=1.5pt] ([xshift=1cm, yshift=2.0cm]current page.south west) 
+            -- ([xshift=-1cm, yshift=2.0cm]current page.south east);
+
+        % --- SIDE GOLD FRAME ---
+        \draw[samsunggold, line width=1pt] ([xshift=1cm, yshift=-2.5cm]current page.north west) 
+            -- ([xshift=1cm, yshift=2.0cm]current page.south west);
+        \draw[samsunggold, line width=1pt] ([xshift=-1cm, yshift=-2.5cm]current page.north east) 
+            -- ([xshift=-1cm, yshift=2.0cm]current page.south east);
+    \end{tikzpicture}
+}
+
+% --- SECTION TITLE STYLING (3D BOXES) ---
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {}
+  {0em}
+  {\begin{tcolorbox}[
+      enhanced, colback=matteblack, colframe=samsunggold, coltext=white,
+      boxrule=1pt, drop shadow, arc=2pt, width=\textwidth, top=6pt, bottom=6pt
+   ]
+   \thesection.\hspace{0.5em} #1
+   \end{tcolorbox}}
+
+\titleformat{\subsection}
+  {\color{samsunggold}\normalfont\large\bfseries}
+  {\thesubsection}{1em}{#1}
+
+% --- BOX: EXECUTIVE SUMMARY (ADJUSTED: BLACK TITLE) ---
+\newtcolorbox{execsummary}{
+    enhanced, 
+    colback=matteblack,        % Text Background: Black
+    colframe=samsunggold,      % Border: Gold
+    colbacktitle=samsunggold,  % Title Background: Solid Gold
+    coltitle=matteblack,       % Title Text: BLACK (As requested)
+    coltext=white,             % Content Text: White
+    title=\textbf{Executive Summary}, 
+    sharp corners,
+    boxrule=1.5pt, 
+    drop shadow, 
+    fonttitle=\bfseries\large
+}
+
+% --- BOX: MATH (GOLDMATH) ---
+\newtcolorbox{goldmath}[1][]{
+    enhanced, colback=matteblack, colframe=samsunggold, coltext=white,
+    coltitle=samsunggold, title=\textbf{#1}, sharp corners,
+    boxrule=1pt, drop shadow, left=6pt, right=6pt, top=6pt, bottom=6pt
+}
+
+% --- HEADER AND FOOTER TEXT ---
+\pagestyle{fancy}
+\fancyhf{} 
+
+% Header
+\fancyhead[L]{\textcolor{white}{\textbf{Samsung Market Intelligence}}}
+\fancyhead[R]{\textcolor{white}{\small Statistical Inference \& Engineering Audit}}
+
+% Footer
+\fancyfoot[L]{\textcolor{white}{\small \textbf{v1.0 - Dec 2025}}}
+\fancyfoot[C]{\textcolor{white}{\textbf{\thepage}}}
+\fancyfoot[R]{\textcolor{white}{\small \textbf{branch: feat/sql-migration-setup}}}
+
+% Remove standard lines
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Image Assets Path
+\graphicspath{ {../../assets/} }
+
+% --- DOCUMENT INFO ---
+\title{\textbf{Migration Validation Report}\\
+\large Stochastic Sampling Logic \& Infrastructure Audit}
+\author{Isaac Maciel - Data Scientist}
+\date{\today}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+
+% --- EXECUTIVE SUMMARY ---
+\begin{execsummary}
+This document validates the migration of the \textbf{Samsung Market Intelligence} platform. It combines a rigorous \textbf{Statistical Inference Analysis} (validating a $13.33\%$ sample size) with a physical \textbf{Engineering Audit}. The current dataset ($n=29,373$) is statistically significant to represent the monthly population ($N \approx 220,300$).
+\end{execsummary}
+
+% --- TECHNICAL CONTENT ---
+\section{Statistical Inference \& Sampling Logic}
+\label{sec:stats}
+
+To guarantee the reliability of the Data Warehouse for downstream tasks-specifically Machine Learning pipelines (ARIMA/Prophet) and Time Series Forecasting, we must formalize the relationship between the ingested sample vector space and the theoretical population manifold.
+
+\subsection{Discrete Time Stochastic Process (The Cron Factor)}
+The data ingestion mechanism is not random; it follows a \textbf{Discrete Time Stochastic Process} governed by the Cron scheduler on the VPS. Instead of a continuous stream, we model the dataset $\mathcal{D}$ as a sequence of observation vectors $\mathbf{x}_i \in \mathbb{R}^d$.
+
+By imposing a rigid sampling frequency $f$ defined by the interval $\Delta t$ between extraction cycles, we ensure the temporal integrity required for time-series models:
+
+\begin{goldmath}[Formalization of the Collection Process]
+    \begin{equation}
+        \mathcal{D}_{captured} = \sum_{k=1}^{K} \mathbf{X}(t_k) \quad \text{where} \quad t_k = t_0 + k \cdot \Delta t
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \implies K=14 \text{ (successful commits)} \land \Delta t = \text{const} \therefore \text{Valid Time-Series Structure}
+    \]
+\end{goldmath}
+
+This formulation proves that the dataset preserves the \textbf{temporal autocorrelation structure}, distinguishing it from a simple cross-sectional survey.
+
+\subsection{Dimensional Saturation \& Asymptotic Convergence}
+We postulate that the current dataset $S$ is a representative subset of the monthly population $\Omega$.
+\begin{itemize}
+    \item \textbf{Sample Cardinality:} $|S| = 29,373$
+    \item \textbf{Projected Monthly Population:} $|\Omega| \approx 220,300$
+\end{itemize}
+
+While the temporal representation ratio is $\rho \approx 13.33\%$, the \textbf{Dimensional Coverage} converges significantly faster. We model the discovery of unique products $P$ as a function of time $t$:
+
+\begin{goldmath}[Theorem of Dimensional Saturation]
+    \begin{equation}
+        \lim_{t \to 4\text{ days}} \frac{\partial |P_S(t)|}{\partial t} \approx 0
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \implies \text{Rate of new } \texttt{product\_id} \text{ discovery} \to 0
+    \]
+    This derivative approaching zero indicates \textbf{Catalog Saturation}.
+\end{goldmath}
+
+\subsection{Convergence via Weak Law of Large Numbers (WLLN)}
+To trust the "Average Price" metrics, we rely on the \textbf{Weak Law of Large Numbers (WLLN)}.
+
+\begin{goldmath}[Convergence Probability]
+    \begin{equation}
+        \lim_{n \to \infty} P\left( \left| \frac{1}{n}\sum_{i=1}^{n} X_i - \mu \right| < \varepsilon \right) = 1
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \implies \text{With } n = 29,373, \text{ the Estimator Variance } Var(\bar{X}) = \frac{\sigma^2}{n} \to 0
+    \]
+\end{goldmath}
+
+\subsection{Precision Enhancement: Finite Population Correction (FPC)}
+Since we are sampling from a \textbf{Finite Population}, we apply the FPC factor:
+
+\begin{goldmath}[Finite Population Correction Factor]
+    \textbf{Standard Definition (Infinite):}
+    \[ SE_{std} = \frac{\sigma}{\sqrt{n}} \]
+    
+    \textbf{Adjusted Definition (Finite $N \approx 220k$):}
+    \begin{equation}
+        SE_{adj} = \frac{\sigma}{\sqrt{n}} \sqrt{\frac{N-n}{N-1}}
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \implies \frac{n}{N} \approx 0.133 \therefore \sqrt{\frac{N-n}{N-1}} < 1 \implies SE_{adj} < SE_{std}
+    \]
+\end{goldmath}
+
+\subsection{Robustness Check: Chebyshev's Inequality}
+To ensure the \textbf{Outlier Detection} logic is robust regardless of the underlying distribution:
+
+\begin{goldmath}[Non-Parametric Outlier Bound]
+    \begin{equation}
+        P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \implies \text{Regardless of distribution shape, outliers are bounded.}
+    \]
+\end{goldmath}
+
+\section{Architecture \& Foundation}
+\label{sec:arch}
+
+With the statistical validity established, we validated the physical architecture designed to hold this data.
+
+\subsection{Blueprint Design: Set-Theoretic Definition}
+The system follows a Logical Star Schema $\mathcal{S}$.
+
+\begin{goldmath}[Schema Topology Definition]
+    Let the Fact Table $F$ be a subset of the Cartesian product of Dimension Keys $K$ and Measure Space $\mathbb{M}$:
+    \begin{equation}
+        F \subseteq K_{prod} \times K_{seller} \times K_{meta} \times \mathbb{M}_{price}
+    \end{equation}
+
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+
+    \textbf{Implication for the Project:}
+    \[
+    \implies \forall r \in F, \exists! d \in D_i : \pi_{K_i}(r) = \pi_{K_i}(d)
+    \]
+    This bijective mapping ensures \textbf{Referential Integrity}.
+\end{goldmath}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{dw_00_star_schema_blueprint.png}
+    \caption{Star Schema Design: Optimized for Time-Series Analysis.}
+    \label{fig:schema}
+\end{figure}
+
+\subsection{Space Complexity \& Normalization Efficiency}
+We prove the efficiency of this model via a \textbf{Space Complexity Analysis}.
+
+\begin{goldmath}[Storage Optimization Theorem]
+    \textbf{Cost Function of Flat Table ($\mathcal{T}_{flat}$):}
+    \[ C(\mathcal{T}_{flat}) \approx N \cdot (W_{num} + W_{text}) \]
+
+    \textbf{Cost Function of Star Schema ($\mathcal{S}$):}
+    \begin{equation}
+        C(\mathcal{S}) \approx N \cdot (W_{num} + W_{int}) + M \cdot W_{text}
+    \end{equation}
+
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+
+    \textbf{Implication for the Project:}
+    \[
+    \lim_{N \to \infty} \frac{C(\mathcal{S})}{C(\mathcal{T}_{flat})} \approx \frac{W_{num}}{W_{num} + W_{text}} \ll 1
+    \]
+\end{goldmath}
+
+\section{Engineering Audit (Storage \& Performance)}
+
+A deep-dive audit was conducted to ensure the physical implementation is efficient.
+
+\subsection{Storage Footprint (Deterministic Audit)}
+We analyzed the disk usage.
+
+\begin{goldmath}[Index-to-Data Space Complexity]
+    Let $S_{heap}$ be the physical size of the raw data pages and $S_{index}$ be the size of the B-Tree structures.
+    \begin{equation}
+        \phi = \frac{S_{index}}{S_{heap}}
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \text{Observed } S_{index} \approx 2.8\text{MB}, \ S_{heap} \approx 2.8\text{MB} \implies \phi \approx 1.01
+    \]
+    A ratio $\phi \geq 1$ indicates an aggressive indexing strategy.
+\end{goldmath}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{dw_04_audit_deterministic.png}
+    \caption{Physical Storage Audit: Index size confirms optimization for complex Joins.}
+    \label{fig:storage}
+\end{figure}
+
+\subsection{Buffer Management (Probabilistic Audit)}
+Using \texttt{EXPLAIN (ANALYZE, BUFFERS)}, we validated RAM caching efficiency.
+
+\begin{goldmath}[Buffer Efficiency Theorem]
+    \begin{equation}
+        \eta = \frac{N_{hits}}{N_{hits} + N_{reads}}
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \eta = \frac{267}{267 + 82} \approx 0.765 \implies 76.5\% \text{ of I/O is served from RAM}
+    \]
+\end{goldmath}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{dw_05_audit_probabilistic.png}
+    \caption{Execution Plan: High 'Shared Hit' ratio proves efficient memory usage.}
+    \label{fig:explain}
+\end{figure}
+
+% --- SCALABILITY SECTION REVISED ---
+\section{Scalability Strategy}
+
+Although the current dataset is relatively small ($n \approx 29k$), we implemented a \textbf{System Sampling} strategy to demonstrate architectural readiness. The goal is to decouple dashboard aggregation performance from table growth, ensuring sub-second response times regardless of future data accumulation.
+
+\subsection{Conceptual Framework: Scanning vs. Sampling}
+We compare the \textbf{Time Complexity} $T(n)$ of linear scanning (\texttt{LIMIT}) versus block-level sampling (\texttt{TABLESAMPLE}) to justify the technical choice for statistical queries.
+
+\begin{goldmath}[Computational Complexity \& Efficiency]
+    \textbf{Linear Scan (\texttt{LIMIT}):} Even with indexes, calculating global averages on a growing heap maintains a linear dependency:
+    \[ T_{limit}(n) \in O(n) \]
+    
+    \textbf{System Sampling (\texttt{SYSTEM}):} By selecting random physical pages directly from the disk block manager, the cost remains constant:
+    \begin{equation}
+        T_{sample}(n) \in O(1) \quad (\text{Constant-Time Access})
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Scientific Justification:}
+    For small datasets, linear scanning is fast, but implementing $T_{sample}$ proves mastery of \textbf{page-level data access}. This technique ensures that the Data Warehouse architecture remains performant as the database matures, avoiding linear degradation of the dashboard latency.
+\end{goldmath}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{dw_7a_limit_tablesample.jpeg}
+    \caption{Conceptual Optimization: Proactive scaling via $O(1)$ sampling vs $O(N)$ scanning.}
+\end{figure}
+
+\section{Boundary Testing (Limits)}
+
+We documented the limitations of the \textbf{System Sampling} strategy (the "Empty Set Problem").
+
+\subsection{The Empty Set Probability Theorem}
+The failure observed at $0.1\%$ sampling is a mathematical certainty.
+
+\begin{goldmath}[Probability of Sampling Failure]
+    Let $M$ be the total number of disk pages occupied by the relation.
+    Let $p$ be the sampling fraction.
+    The probability $P(\emptyset)$ of the query returning an empty set is:
+
+    \begin{equation}
+        P(\emptyset) = (1 - p)^M
+    \end{equation}
+    
+    \vspace{0.2cm}
+    \hrule \vspace{0.2cm}
+    
+    \textbf{Implication for the Project:}
+    \[
+    \text{If } M \times p < 1 \text{ (Expected Pages} < 1), \text{ stability is lost.}
+    \]
+    This mathematically proves that \texttt{SYSTEM} sampling has a \textbf{Minimum Viable Population} threshold.
+\end{goldmath}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{dw_07c_sampling_distribution_1pct.png}
+        \caption{1\% Sampling: Effective (252 rows)}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{dw_07d_sampling_boundary_failure.png}
+        \caption{0.1\% Sampling: Failure (0 rows)}
+    \end{subfigure}
+    \caption{Boundary Testing: 0.1\% sampling fails on small datasets, a known mathematical limitation.}
+\end{figure}
+
+\end{document}

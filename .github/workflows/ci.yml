@@ -1,4 +1,4 @@
-name: Samsung Pipeline CI 
+name: Samsung Pipeline CI
 
 on:
   push:
@@ -14,6 +14,31 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    # ==============================================================================
+    # SERVICE CONTAINER: EPHEMERAL TEST DATABASE
+    # ==============================================================================
+    # I am spinning up a temporary PostgreSQL instance strictly for integration testing.
+    # This database is isolated, empty, and destroyed immediately after the workflow finishes.
+    #
+    # SECURITY NOTE: The credentials below are explicitly for this throwaway test container.
+    # They allow the CI runner to validate DB connectivity logic without exposing real production data.
+    # ==============================================================================
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: user_test        # Sandbox credential
+          POSTGRES_PASSWORD: password_test # Sandbox credential
+          POSTGRES_DB: samsung_test_db
+        ports:
+          - 5432:5432
+        # Health check to ensure the DB is ready to accept connections before tests start
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,23 +51,36 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 pytest
+          pip install flake8 pytest pytest-cov
+          # Install project requirements (SQLAlchemy, Pandas, etc.)
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Lint with flake8
+      - name: Lint with Flake8
         run: |
-          # Fails the build only if critical Python errors are detected in our code
-          # We target 'src' and 'tests' specifically to avoid linting 3rd party libs
+          # Fails the build only if critical Python errors are detected (Syntax, Undefined names)
           flake8 src tests --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Non-blocking warnings for code complexity
+          flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Run Integration Tests
-        env:
-          # Forces the scraper into 'Single Run' mode for validation
-          SCRAPER_MODE: TEST 
-          # Injects the current workspace into the Python path for module resolution
-          PYTHONPATH: ${{ github.workspace }}
+      - name: Prepare Test Environment (FileSystem)
         run: |
-          # Create temporary directory structure for the runner environment
+          # The Scraper integration tests require these directories to write temporary CSVs/Logs
           mkdir -p data/raw logs
-          # Execute the integration suite to validate the extraction engine logic
-          python -m pytest tests/integration/test_scraper_execution.py -v
+
+      - name: Run Full Integration Suite
+        # Here we inject environment variables for BOTH the CSV Scraper and the SQL Database.
+        # This allows running the full 'pytest' suite covering the entire hybrid architecture.
+        env:
+          # --- Scraper Config ---
+          SCRAPER_MODE: TEST
+          PYTHONPATH: ${{ github.workspace }}
+          
+          # --- Database Config (Pointing to the Ephemeral Service above) ---
+          DB_USER: user_test
+          DB_PASSWORD: password_test
+          DB_NAME: samsung_test_db
+          DB_HOST: localhost
+          DB_PORT: 5432
+        run: |
+          # Execute all tests (Unit, DB Integration, Scraper Integration) with coverage report
+          python -m pytest --cov=src tests/ -v 
