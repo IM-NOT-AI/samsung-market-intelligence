@@ -2,7 +2,7 @@ import sys
 import json
 from loguru import logger
 from  typing import Dict, Any
-from .config import MonitoringConfig
+from .settings import MonitoringConfig
 
 class StructuredLogger:
     """

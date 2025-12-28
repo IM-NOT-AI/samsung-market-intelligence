@@ -1,16 +1,44 @@
 version: "3.8"
 
 services:
+  # Service 1: The Scraper/Bot Application
   samsung-bot:
     build: .
     container_name: samsung_pipeline_vps
     restart: unless-stopped
     volumes:
-      # Maps computer's folder to inside Docker
+      # Maps local directories to container directories for persistent data/logs
       - ./data:/app/data
       - ./logs:/app/logs
     environment:
       - TZ=America/Sao_Paulo
       - METRICS_PORT=9090
+    env_file:
+      - .env  # Injects DB credentials into the bot environment
     ports:
-    - "9090:9090"
+      - "9090:9090"
+    depends_on:
+      - db  # Ensures the bot starts only after the database is ready
+
+  # Service 2: The Analytical Database (Sample DB)
+  db:
+    image: postgres:16
+    container_name: sample_samsung_db
+    restart: always
+    ports:
+      # Maps host port 5455 to container port 5432 (Internal PostgreSQL default)
+      # We use 5455 externally to avoid conflicts with local Postgres installations
+      - "5455:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME} # Will create 'sample_samsung_db'
+    volumes:
+      # Named volume for data persistence. Data survives container removal.
+      - samsung_pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+# Define the persistent storage volume
+volumes:
+  samsung_pg_data:

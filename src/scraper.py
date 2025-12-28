@@ -23,12 +23,17 @@ try:
     # Importing Enterprise Monitoring Classes
     from src.monitoring.logger import structured_logger
     from src.monitoring.metrics import metrics, BusinessEventTracker
-    from src.monitoring.config import MonitoringConfig
-    # Logoru for generic info logs to keep consistency
+    from src.monitoring.settings import MonitoringConfig
+    # Loguru for generic info logs to keep consistency
     from loguru import logger
 except ImportError as e:
-    print(f"CRITICAL ERROR: Could not import monitoring modules. Check folder structure. {e}")
-    sys.exit(1)
+    print(f"\n🚨 CRITICAL IMPORT ERROR: {e}")
+    # DEBUGGING STRATEGY:
+    # If running via Pytest, do NOT execute sys.exit().
+    # This allows the test framework to capture and display the actual missing file error
+    # instead of just dying silently with "SystemExit: 1".
+    if "pytest" not in sys.modules:
+        sys.exit(1)
 
 # ==============================================================================
 # PROMETHEUS SERVER SETUP

@@ -1,3 +1,68 @@
+![Status](https://img.shields.io/badge/Stage-Pilot_Phase-green)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)
+![Linux VPS](https://img.shields.io/badge/Cloud-VPS-FF9900?logo=linux&logoColor=white)
+
+
+![Prometheus](https://img.shields.io/badge/Metrics-Prometheus-E6522C?logo=prometheus&logoColor=white)
+![Logging: Loguru](https://img.shields.io/badge/Logging-Structured_JSON-blue?logo=probot)
+![Observability: Metrics Exposed](https://img.shields.io/badge/Telemetry-Prometheus_Pull-E6522C)
+
+
+![CI: GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=github-actions&logoColor=white)
+![Pytest](https://img.shields.io/badge/Tests-Pytest-0A9EDC?logo=pytest&logoColor=white)
+![Test Coverage](https://img.shields.io/badge/Coverage-Integration_Verified-brightgreen?logo=pytest)
+![Linter: Flake8](https://img.shields.io/badge/Linter-Flake8-white?logo=python&logoColor=black)
+![Metrics: 100% CSR](https://img.shields.io/badge/CSR-100%25-success)
+
+
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL_16-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/ORM-SQLAlchemy-D71F00?logo=sqlalchemy&logoColor=white)
+![Architecture](https://img.shields.io/badge/Architecture-Star_Schema-FFD700?logo=databricks&logoColor=black)
+
+
+![Pipeline](https://img.shields.io/badge/Pipeline-ETL-blueviolet)
+![Migration](https://img.shields.io/badge/Migration-CSV_%E2%86%92_SQL-success)
+![Data Integrity](https://img.shields.io/badge/Data_Integrity-Verified-00C853?logo=security&logoColor=white)
+
+
+![Sampling Strategy](https://img.shields.io/badge/Sampling-System_(Block)-important)
+![Statistical Significance](https://img.shields.io/badge/Stat_Significance-WLLN_Verified-blue)
+![Scalability](https://img.shields.io/badge/Scalability-Big_Data_Ready-ff69b4)
+
+
+<a href="https://mg.gcremer.de/latexmk/" target="_blank">
+  <img src="https://img.shields.io/badge/Latexmk-Build_Automation-008000?style=for-the-badge&logo=alpinelinux&logoColor=white" alt="Latexmk Badge"/>
+</a>
+<a href="https://strawberryperl.com/" target="_blank">
+  <img src="https://img.shields.io/badge/Strawberry_Perl-5.38-6D4A3D?style=for-the-badge&logo=perl&logoColor=white" alt="Strawberry Perl Badge"/>
+</a>
+<a href="https://miktex.org/" target="_blank">
+  <img src="https://img.shields.io/badge/MiKTeX-Distribution-231F20?style=for-the-badge&logo=latex&logoColor=white" alt="MiKTeX Badge"/>
+</a>
+<a href="https://www.pdfa.org/" target="_blank">
+  <img src="https://img.shields.io/badge/ISO_19005-PDF/A-FF0000?style=for-the-badge&logo=adobe&logoColor=white" alt="PDF/A Badge"/>
+</a>
+
+<p>
+  <img src="https://img.shields.io/badge/Methodology-Stochastic_Sampling-blueviolet?style=for-the-badge" alt="Stochastic Methodology"/>
+<img src="https://img.shields.io/badge/Proof-Weak_Law_of_Large_Numbers_(WLLN)-success?style=for-the-badge" alt="WLLN Badge"/>
+  <img src="https://img.shields.io/badge/Audit-Deterministic_&_Probabilistic-purple?style=for-the-badge" alt="Audit Status"/>
+  <br>
+  <img src="https://img.shields.io/badge/Validation-Chebyshev_Bounded-orange?style=for-the-badge" alt="Chebyshev Inequality"/>
+  <img src="https://img.shields.io/badge/Data_Integrity-MVP_Threshold_Verified-00C853?style=for-the-badge&logo=security&logoColor=white" alt="Integrity"/>
+</p>
+
+![Latexmk](https://img.shields.io/badge/Latexmk-Automation-008000?logo=alpinelinux&logoColor=white)
+![Strawberry Perl](https://img.shields.io/badge/Strawberry_Perl-Perl_Inside-6D4A3D?logo=perl&logoColor=white)
+![MiKTeX](https://img.shields.io/badge/MiKTeX-LaTeX_Engine-231F20?logo=latex&logoColor=white)
+![LaTeX Math](https://img.shields.io/badge/LaTeX-Mathematics-008080?logo=latex&logoColor=white)
+![PDF/A compliant](https://img.shields.io/badge/Archivability-PDF/A-red?logo=adobe)
+
+
+![Sampling](https://img.shields.io/badge/Sampling_Strategy-System_(Block_Level)-important?style=for-the-badge&logo=databricks&logoColor=white)
+![Scalability](https://img.shields.io/badge/Scalability-O(1)_Constant_Time-ff69b4?style=for-the-badge)
+
 # Samsung Market Intelligence - Business Context
 
 Context document for the **Samsung Market Intelligence** project. This repository demonstrates, end-to-end, the construction of a **Data Engineering, Data Analyst, Data Scientist, and Machine Learning** pipeline for monitoring, analyzing, and forecasting Samsung smartphone prices on Mercado Livre. The project utilizes a robust architecture featuring **Docker, Prometheus, Structured Logging**, and integration tests.
@@ -265,25 +330,37 @@ The project follows a **Modular Pattern** tailored for Data Engineering. The cod
 
 ```text
 .
-├── data/                   # Local Data Lake (Volume Mapped in Docker)
-│   ├── raw/                # Immutable ingestion landing zone (Append-Only CSVs)
-│   └── processed/          # Cleaned data ready for Analytics (Future Parquet/DB)
-├── logs/                   # Rotated Structured JSON logs (Persisted on VPS disk)
-├── src/                    # Application Source Code
-│   ├── monitoring/         # Enterprise Observability Package
-│   │   ├── __init__.py     # Module initialization
-│   │   ├── config.py       # Dynamic configuration & Environment Variables
-│   │   ├── logger.py       # Loguru wrapper for JSON Structured Logging
-│   │   └── metrics.py      # Prometheus Custom Collector (Singleton Pattern)
-│   ├── __init__.py         # Source initialization
-│   └── scraper.py          # Main ETL Entrypoint (Extraction Engine)
-├── tests/                  # QA & Testing Pyramid
-│   ├── integration/        # End-to-End Pipeline Verification (Real Network)
-│   └── unit/               # Parsing Logic Isolation (HTML Mocks)
-├── docker-compose.yml      # Service Orchestration (App + Volume Binding)
-├── Dockerfile              # Multi-stage build definition (Python 3.12 Slim)
-├── requirements.txt        # Pinned dependencies for reproducibility
-└── README.md               # Business Context and Documentation
+├── .github/workflows/          # CI/CD Automation (GitHub Actions)
+│   └── ci.yml                  # Linting and Integration Test pipeline
+├── data/                       # Local Data Lake (Volume Mapped in Docker)
+│   ├── raw/                    # Ingestion Zone: Raw data (samsung_market_data.csv)
+│   └── processed/              # Analytics Zone: Cleaned and prepared data
+├── docs/assets/                # Technical evidence and visual project artifacts
+│   ├── ci_successed.png        # Quality Gate approval screenshot
+│   ├── prometheus_metrics.png  # Observability evidence (Telemetria)
+│   ├── scraper_ml.png          # Scraper demonstration in real environment
+│   └── vps_successed.png       # Successful execution logs on VPS
+├── logs/                       # JSON Structured Logs (Persisted on VPS disk)
+│   └── scraper_execution_*.log # Full traceability of each collection cycle
+├── models/                     # Machine Learning artifacts (Trained models)
+├── notebooks/                  # Research Lab: EDA and model prototyping
+├── src/                        # Application Source Code
+│   ├── monitoring/             # Enterprise Observability Package
+│   │   ├── config.py           # Environment Variables and Config management
+│   │   ├── logger.py           # Loguru wrapper for JSON Structured Logging
+│   │   └── metrics.py          # Prometheus Custom Collector (Singleton)
+│   ├── __init__.py             # Source module initialization
+│   └── scraper.py              # Core Engine: ETL and resilience logic
+├── tests/                      # Testing Pyramid and QA
+│   ├── integration/            # End-to-End validation with real network
+│   │   └── test_scraper_*.py   # CSV integrity and persistence verification
+│   └── unit/                   # Isolation tests for parsing logic
+│       └── test_parser.py      # Integrity guarantee against HTML changes
+├── .gitignore                  # Exclusion of sensitive files and virtual envs
+├── docker-compose.yml          # Service orchestration and persistent volumes
+├── Dockerfile                  # Isolated environment definition (Python 3.12 Slim)
+├── requirements.txt            # Pinned dependencies for full reproducibility
+└── README.md                   # Strategic and technical project documentation
 ```
 
 ## 14. Project Roadmap to v1.0.0 (End-to-End)
@@ -292,10 +369,84 @@ This roadmap outlines the milestones required to evolve the project from a raw d
 
 ### Phase 1: Data Engineering & Infrastructure (The Foundation)
 - [x] **Core Scraper**: Implementation of resilient scraping logic using `BeautifulSoup` and `Requests`.
+
+![Marketplace Mapping](docs/assets/scraper_ml.png)
+
 - [x] **Observability**: Integration of **Prometheus** for metrics and **Loguru** for structured logging.
-- [ ] **Infrastructure**: Deployment to a Linux VPS using **Docker** and **Docker Compose**.
-- [ ] **CI/CD Pipeline**: Setup of GitHub Actions for automated testing (`pytest`) and linting (`flake8`) upon push.
-- [ ] **Data Warehousing**: Migration from CSV to **PostgreSQL** to establish a robust source of truth.
+
+![Prometheus Metrics](docs/assets/prometheus_metrics.png)
+
+- [x] **Infrastructure**: Deployment to a Linux VPS using **Docker** and **Docker Compose**.
+
+![VPS Deployment](docs/assets/vps_successed.png)
+
+- [x] **CI Pipeline**: Setup of GitHub Actions for automated testing (`pytest`) and linting (`flake8`) upon push.
+    - Below, the official **GitHub Actions** workflow run confirming a stable, production-ready build on the `main` branch:
+
+![CI Success](docs/assets/ci_successed.png)
+![CI Workflow Stable](docs/assets/ci_workflow_main_stable.png)
+
+- [x] **Data Warehousing**: Migration from CSV to **PostgreSQL** to establish a robust source of truth.
+    - **Architectural Blueprint**: Implementation of a Logical Star Schema (Price Facts vs. Product Dimensions).
+    - **Pipeline Execution**: 
+        - Schema Initialization & Connectivity Checks.
+        - ETL Migration (Python `pandas` to SQL `Alchemy`).
+    - **Engineering Audit**: 
+        - Storage Footprint (Deterministic) vs. Query Buffer Performance (Probabilistic).
+        - Scalability Strategy (System Sampling for Big Data).
+        - Boundary Testing (Data Integrity & Edge Cases).
+
+### 1. Architecture & Foundation
+Defining the "Source of Truth" before writing code.
+
+![Star Schema Blueprint](docs/assets/dw_00_star_schema_blueprint.png)
+*Figure 1.0: Logical Star Schema design separating volatile Facts (Offers) from stable Dimensions.*
+
+![Schema Initialization](docs/assets/dw_01_schema_initialization.png)
+![Connection Tests](docs/assets/dw_02_connection_tests.png)
+
+### 2. ETL Migration Execution
+Moving raw scraped data into the structured warehouse.
+
+![ETL Pipeline Execution](docs/assets/dw_03_etl_migration_execution.png)
+
+### 3. Infrastructure Audit (Storage & Performance)
+Validating that the physical implementation is efficient.
+
+| Audit Type | Evidence | Insight |
+| :--- | :--- | :--- |
+| **Storage (Deterministic)** | ![Storage Audit](docs/assets/dw_04_audit_deterministic.png) | High index ratio confirms optimization for analytical queries (OLAP). |
+| **Buffers (Probabilistic)** | ![Buffer Audit](docs/assets/dw_05_audit_probabilistic.png) | `Shared Hit=267` proves efficient RAM caching usage vs. Disk I/O. |
+
+### 4. Scalability Strategy: The Sampling Thesis
+Preparing the dashboard logic for TB-scale data using PostgreSQL `TABLESAMPLE`.
+
+![Sampling Concept](docs/assets/dw_7a_limit_tablesample.jpeg)
+*Figure 4.0: Conceptual difference between LIMIT (slow) and SYSTEM SAMPLING (fast).*
+
+**The Benchmark Test:**
+Comparing a Full Scan vs. System Sampling on the Christmas Dataset ($n=29k$).
+
+![Baseline Full Count](docs/assets/dw_06a_baseline_full_count.png)
+*Figure 4.1: Baseline - Full Table Scan (100% accuracy, slower).*
+
+![System 10% Test](docs/assets/dw_06b_test_system_10_percent.png)
+*Figure 4.2: System Sampling (10%) - Statistically significant result retrieved instantly.*
+
+### 5. Data Quality & Boundary Testing
+Verifying data integrity and documenting known limitations (Edge Cases).
+
+![Data Integrity](docs/assets/dw_07b_data_integrity_preview_head.png)
+*Figure 5.0: Data Integrity Check (Top 100 rows) - Verifying column types and null handling.*
+
+![Sampling 1%](docs/assets/dw_07c_sampling_distribution_1pct.png)
+*Figure 5.1: 1% Sampling - Still effective for smaller batches.*
+
+![Sampling Failure](docs/assets/dw_07d_sampling_boundary_failure.png)
+*Figure 5.2: Boundary Failure - 0.1% Sampling returns 0 rows on small datasets (documented limitation).*
+
+![Report Cover](docs/assets/dw_08_report_cover_page.png)
+*Figure 6.0: Migration Validation Report (v1.0) - Executive Summary and formalization of the collection process as a Discrete Time Stochastic Process.*
 
 ### Phase 2: Data Analytics & EDA (The Insight)
 - [ ] **Data Cleaning**: Pipeline to handle null values, deduplication, and outliers removal.
@@ -410,7 +561,15 @@ For the "MVP" (Minimum Viable Product) to be considered stable for the Pilot Pha
 
 ## 18. How to Reproduce Locally
 
-1.  Clone the repository.
-2.  Install dependencies: `pip install -r requirements.txt`.
-3.  Run tests to validate the environment: `python -m pytest tests/integration`.
-4.  Execute the scraper: `python -m src.scraper`.
+1. Clone the repository.
+2. Install dependencies: `pip install -r requirements.txt`.
+3. **Run Quality Gate (Tests)**:
+   ```bash
+   export SCRAPER_MODE=TEST
+   python -m pytest tests/integration/test_scraper_execution.py -v
+   python -m src.scraper
+   ````
+4. Execute Scraper (Production Mode):
+    ```
+    python -m src.scraper
+    ```

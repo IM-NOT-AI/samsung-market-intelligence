@@ -1,15 +1,22 @@
-# --- Core Scraping ---
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-pandas>=2.2.0
+# --- Core Application Dependencies ---
+requests==2.32.3
+beautifulsoup4==4.12.3
+pandas==2.2.3
+python-dotenv==1.0.1
+loguru==0.7.3
+pydantic==2.10.3
 
-# --- Enterprise Monitoring ---
-prometheus-client>=0.20.0
+# --- Database & ORM (Added based on new scripts) ---
+SQLAlchemy==2.0.36          # Core ORM used in models.py and connection.py
+psycopg2-binary==2.9.10     # PostgreSQL adapter required for the connection string
+
+# --- Monitoring & Metrics ---
+prometheus-client==0.21.1  
+
+# --- Development & Testing ---
+pytest==8.3.4
+pytest-cov==6.0.0
+flake8==7.1.1
+black==24.10.0
+
 psutil>=5.9.0
-loguru>=0.7.2
-
-# --- Testing (QA) ---
-pytest>=7.4.0
-pytest-mock>=3.12.0
-anyio>=4.2.0
-

@@ -2,7 +2,7 @@ import time
 import psutil
 from typing import Optional
 from prometheus_client import Counter, Histogram, Gauge, CollectorRegistry, generate_latest, start_http_server
-from .config import MonitoringConfig
+from .settings import MonitoringConfig
 from .logger import structured_logger
 
 class ScraperMetricsCollector:
